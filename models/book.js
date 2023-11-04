@@ -11,9 +11,15 @@ const bookSchema = mongoose.Schema({
         required: true
     },
     author: {
-        type:String,
-        required: true
+        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author',
     },
+    category:[{
+        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+    }],
     publicationYear:{
         type:Number,
         required: true

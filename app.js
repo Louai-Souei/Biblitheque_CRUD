@@ -1,7 +1,12 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Book = require("./models/book");
+const BookRoutes = require("./routes/book")
+const AuthorRoutes = require("./routes/author")
+const CategoryRoutes = require("./routes/category")
+
+
+
 mongoose
   .connect(
     "mongodb://localhost:27017/bibliotheque",
@@ -27,87 +32,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/api/books/", (req, res) => {
-  Book.find()
-    .then((books) =>
-      res.status(200).json({
-        model: books,
-        message: "success",
-      })
-    )
-    .catch((error) =>
-      res.status(400).json({
-        error: error.message,
-        message: "probleme d'extraction",
-      })
-    );
-});
-app.get("/api/books/:ref", (req, res) => {
 
-  Book.findOne({ ref: req.params.ref })
-    .then((book) => {
-      if (!book) {
-        res.status(404).json({
-          message: "Livre non trouvé",
-        });
-      } else {
-        res.status(200).json({
-          model: book,
-          essage: "Livre trouvé",
-        });
-      }
-    })
-    .catch((error) =>
-      res.status(400).json({
-        error: error.message,
-        message: "Données invalides",
-      })
-    );
-});
-app.post("/api/books/", (req, res) => {
-  console.log(req.body);
-  const book = new Book(req.body);
-  book
-    .save()
-    .then(() =>
-      res.status(201).json({
-        model: book,
-        message: "Livre ajouté !",
-      })
-    )
-    .catch((error) =>
-      res.status(400).json({
-        error: error.message,
-        message: "Données invalides",
-      })
-    );
-});
+app.use("/books",BookRoutes)
+app.use("/authors",AuthorRoutes)
+app.use("/category",CategoryRoutes)
 
-app.patch("/api/books/:ref", (req, res) => {
-  Book.findOneAndUpdate({ ref : req.params.ref }, req.body, { new: true })
-    .then((book) => {
-      if (!book) {
-        res.status(404).json({
-          message: "Livre non trouvé",
-        });
-      } else {
-        res.status(200).json({
-          model: book,
-          message: "Information(s) du livre bien modifiée(s)",
-        });
-      }
-    })
-    .catch((error) =>
-      res.status(400).json({
-        error: error.message,
-        message: "Données invalides",
-      })
-    );
-});
-app.delete("/api/books/:ref", (req, res) => {
 
-  Book.deleteOne({ ref: req.params.ref })
-    .then(() => res.status(200).json({ message: "Livre supprimé" }))
-    .catch((error) => res.status(400).json({ error }));
-});
 module.exports = app;
