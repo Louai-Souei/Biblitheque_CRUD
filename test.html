@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        
+        <button type="submit">Login</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket = io();
+        // Ajoutez ici le code JavaScript pour gérer la soumission du formulaire
+        const loginForm = document.getElementById('loginForm');
+        
+
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            alert("ttt")
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+               console.log(data);
+               const userId = data.userId
+               socket.emit('setSocketId', userId); // Afficher la réponse dans la console
+
+                // Ajoutez ici le code pour gérer la réponse de la requête login
+                // Par exemple, rediriger l'utilisateur après un login réussi
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        socket.on('news', ($data) => {
+            console.log("User connected with SocketId : ", $data)
+
+            alert($data);
+          });
+    </script>
+</body>
+</html>

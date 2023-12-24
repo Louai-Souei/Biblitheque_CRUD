@@ -1,4 +1,4 @@
-const http = require("http")
+/*const http = require("http")
 const app=require("./app")
 const port =process.env.PORT || 5000
 //createServer accepte un callback qui a comme parametre la requete et la reponse
@@ -12,4 +12,4 @@ app.set("port", port)
 const server = http.createServer(app)
 server.listen(port,()=>{
     console.log("Listening on "+ port)
-})
+})*/

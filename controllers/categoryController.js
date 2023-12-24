@@ -1,6 +1,9 @@
 const express = require('express');
 const router=express.Router();
 
+const { Server } = require("socket.io");
+const io = require('../app'); 
+
 const Category = require("../models/category")
   
   const AddCategory = (req, res) => {
@@ -21,6 +24,19 @@ const Category = require("../models/category")
         })
       );
   };
+  /////////////////////////**:::::::::::::::::::::::::::::::::::::::::////////////////////////// */
+
+
+
+
+
+
+
+
+
+
+
+  /////////////////////////**:::::::::::::::::::::::::::::::::::::::::////////////////////////// */
 
   module.exports={
     AddCategory:AddCategory,

@@ -1,11 +1,51 @@
 const express = require("express");
 const app = express();
+const http = require("http")
+const port =process.env.PORT || 5000
+//const socketIO = require('socket.io');
+const server = http.createServer(app)
+//const socketIo = require("socket.io");
+//const io = socketIo(server);
+
 const mongoose = require("mongoose");
 const BookRoutes = require("./routes/book")
 const AuthorRoutes = require("./routes/author")
 const CategoryRoutes = require("./routes/category")
+const UserRoutes = require("./routes/user")
+/*
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+
+  // Événement 'setSocketId' écouté ici
+  socket.on('setSocketId_1', (userId) => {
+    console.log(`Received setSocketId event for user ID: ${userId}`);
+    // Votre logique pour gérer cet événement
+    // Ici, vous pouvez mettre en place votre logique pour émettre des événements à un utilisateur spécifique
+  });
+});*/
 
 
+
+
+//  const io = socketIO(server);
+
+
+app.set("port", port)
+
+
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/test.html');
+});
+
+server.listen(port,()=>{
+  console.log("Listening on "+ port)
+})
 
 mongoose
   .connect(
@@ -36,6 +76,7 @@ app.use((req, res, next) => {
 app.use("/books",BookRoutes)
 app.use("/authors",AuthorRoutes)
 app.use("/category",CategoryRoutes)
+app.use("", UserRoutes)
 
 
-module.exports = app;
+module.exports = {app, server} ;
