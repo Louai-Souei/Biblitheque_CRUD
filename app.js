@@ -6,7 +6,7 @@ const port =process.env.PORT || 5000
 const server = http.createServer(app)
 //const socketIo = require("socket.io");
 //const io = socketIo(server);
-
+const cors = require('cors');
 const mongoose = require("mongoose");
 const BookRoutes = require("./routes/book")
 const AuthorRoutes = require("./routes/author")
@@ -72,6 +72,7 @@ app.use((req, res, next) => {
   next();
 });
 
+io.listen(8000)
 
 app.use("/books",BookRoutes)
 app.use("/authors",AuthorRoutes)

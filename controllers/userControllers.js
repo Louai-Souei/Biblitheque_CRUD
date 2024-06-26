@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const User = require("../models/user")
 const user = require("../models/user")
-
+const { io }  = require('../test/socket');
 
 
 ///////////////////////**//////////////////////////////////////////////// */
@@ -44,11 +44,11 @@ exports.login = (req, res, next) => {
 
     user.findOne({email:req.body.email})
     .then((user)=>{
-        console.log("rr")
+        console.log(req.body)
         if(!user){
             return res 
             .status(401)
-            .json({message:"login ou pass incorrect"})
+            .json({message:"login ou pass incorrect123456"})
         }
         bcrypt.compare(req.body.password,user.password)
         .then((valid)=>{
@@ -62,6 +62,7 @@ exports.login = (req, res, next) => {
                 }),
                 userId:user._id
             })
+            io.emit('login_',"login works")
         })
     }).catch((error)=> res.status(500).json({error:error}))
 

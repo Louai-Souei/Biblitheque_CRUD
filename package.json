@@ -2,10 +2,11 @@
   "name": "-y",
   "version": "1.0.0",
   "description": "",
-  "main": "test/index.js",
+  "main": "app.js",
   "scripts": {
-    "serve": "node test/index.js",
-    "dev": "nodemon socket/index.js"
+    "serve": "node app.js",
+    "dev": "nodemon app.js",
+    "swagger": "node ./swagger.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongo": "^0.1.0",
     "mongoose": "^7.5.4",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
   }
 }
